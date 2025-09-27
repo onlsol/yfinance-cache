@@ -5,7 +5,7 @@ _make() (
 	set -u
 
 	_name=yfinance-cache
-	_ver=`cat version-live`
+	_ver=`cat yfinance_cache/VERSION`
 	_ddir=dist-live
 
 	_nameu=`echo "$_name" | sed "s/-/_/g"`
