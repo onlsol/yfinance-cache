@@ -361,7 +361,7 @@ class Ticker:
         exchange, tz_name, lday = None, None, None
         i = None
         try:
-            i = self.get_info('9999d')
+            i = self.get_info('9999D')
             exchange = i['exchange']
             if "exchangeTimezoneName" in i:
                 tz_name = i["exchangeTimezoneName"]
