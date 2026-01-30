@@ -238,8 +238,8 @@ def GetCalendarViaCache(exchange, start, end=None):
             start = date(pre_range[0], 1, 1)
             end = date(pre_range[1], 12, 31)
             if exchange == 'CCC':
-                opens = pd.date_range(start=start, end=end, freq='1d').tz_localize(ZoneInfo(GetExchangeTzName(exchange)))
-                ends = opens + pd.Timedelta('1d')
+                opens = pd.date_range(start=start, end=end, freq='1D').tz_localize(ZoneInfo(GetExchangeTzName(exchange)))
+                ends = opens + pd.Timedelta('1D')
                 pre_cal = Simple247xcal(opens, ends)
             else:
                 pre_cal = xcal.get_calendar(cal_name, start=start, end=end)
@@ -252,8 +252,8 @@ def GetCalendarViaCache(exchange, start, end=None):
             start = date(post_range[0], 1, 1)
             end = date(post_range[1], 12, 31)
             if exchange == 'CCC':
-                opens = pd.date_range(start=start, end=end, freq='1d').tz_localize(ZoneInfo(GetExchangeTzName(exchange)))
-                ends = opens + pd.Timedelta('1d')
+                opens = pd.date_range(start=start, end=end, freq='1D').tz_localize(ZoneInfo(GetExchangeTzName(exchange)))
+                ends = opens + pd.Timedelta('1D')
                 post_cal = Simple247xcal(opens, ends)
             else:
                 post_cal = xcal.get_calendar(cal_name, start=start, end=end)
@@ -417,7 +417,7 @@ def GetExchangeWeekSchedule(exchange, start, end, ignoreHolidays, ignoreWeekends
         end_d = end
     else:
         end_d = end.astimezone(tz).date() + td_1d
-    dt_now = pd.Timestamp.utcnow().tz_convert(ZoneInfo("UTC"))
+    dt_now = pd.Timestamp.now('UTC').tz_convert(ZoneInfo("UTC"))
     # td7d = timedelta(days=7)
     td7d = pd.DateOffset(days=7)
 
@@ -534,7 +534,7 @@ def MapPeriodToDates(exchange, period, interval):
 
     # Map period to start->end range so logic can intelligently fetch missing data
     td_1d = timedelta(days=1)
-    dt_now = pd.Timestamp.utcnow().replace(tzinfo=ZoneInfo("UTC"))
+    dt_now = pd.Timestamp.now('UTC').replace(tzinfo=ZoneInfo("UTC"))
     d_now = dt_now.astimezone(tz_exchange).date()
     sched = GetExchangeSchedule(exchange, d_now-(7*td_1d), d_now+td_1d)
     yf_lag = yfcd.exchangeToYfLag[exchange]
@@ -612,7 +612,7 @@ def GetExchangeScheduleIntervals(exchange, interval, start, end, discardTimes=No
         yfc_logger.debug("GetExchangeScheduleIntervals()")
         yfc_logger.debug("- " + str(locals()))
 
-    dt_now = pd.Timestamp.utcnow()
+    dt_now = pd.Timestamp.now('UTC')
     tz = ZoneInfo(GetExchangeTzName(exchange))
     td_1d = timedelta(days=1)
     if not isinstance(start, datetime):
@@ -1795,7 +1795,7 @@ def IsPriceDatapointExpired(intervalStart, fetch_dt, repaired, max_age, exchange
     if dt_now is not None:
         yfcu.TypeCheckDatetime(dt_now, "dt_now")
     else:
-        dt_now = pd.Timestamp.utcnow().tz_convert(ZoneInfo(GetExchangeTzName(exchange)))
+        dt_now = pd.Timestamp.now('UTC').tz_convert(ZoneInfo(GetExchangeTzName(exchange)))
 
     if yf_lag is not None:
         yfcu.TypeCheckTimedelta(yf_lag, "yf_lag")
