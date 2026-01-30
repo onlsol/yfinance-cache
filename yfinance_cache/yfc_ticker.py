@@ -519,7 +519,7 @@ class Ticker:
 
     def get_attribute(self, name, max_age=None, merge=False, metadata=False):
         if max_age is None:
-            max_age = pd.Timedelta('365d')
+            max_age = pd.Timedelta('365D')
         if not isinstance(max_age, (datetime.timedelta, pd.Timedelta)):
             max_age = pd.Timedelta(max_age)
         if max_age < pd.Timedelta(0):
@@ -665,7 +665,7 @@ class Ticker:
 
         return self._fast_info
 
-    def get_shares(self, start=None, end=None, max_age='30d'):
+    def get_shares(self, start=None, end=None, max_age='30D'):
         debug = False
         # debug = True
 
