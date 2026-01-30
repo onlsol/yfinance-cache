@@ -2163,7 +2163,7 @@ class FinancialsManager:
         if debug:
             print("- yf_start_date =", yf_start_date)
         if last_fetch is not None:
-            if (last_fetch + pd.Timedelta('14d')) > dt_now:
+            if (last_fetch + pd.Timedelta('14D')) > dt_now:
                 # Avoid spamming Yahoo for data it doesn't have (empty earnings_dates).
                 if self._earnings_dates is None:
                     # Already attempted a fetch recently, Yahoo has nothing.
@@ -2191,17 +2191,17 @@ class FinancialsManager:
             if isinstance(ei, (yfcd.ComparableRelativedelta, relativedelta)):
                 # Convert to normal Timedelta, don't need 100% precision
                 if ei.months == 3:
-                    ei = pd.Timedelta('91d')
+                    ei = pd.Timedelta('91D')
                 elif ei.months == 6:
-                    ei = pd.Timedelta('182d')
+                    ei = pd.Timedelta('182D')
                 elif ei.months == 12 or ei.years==1:
-                    # ei = pd.Timedelta('365d')
+                    # ei = pd.Timedelta('365D')
                     # Don't believe it
-                    ei = pd.Timedelta('182d')
+                    ei = pd.Timedelta('182D')
                 else:
                     raise Exception(ei, type(ei))
 
-            lookahead_dt = dt_now + pd.Timedelta('365d')
+            lookahead_dt = dt_now + pd.Timedelta('365D')
             if debug:
                 print("- ei =", ei)
                 print("- lookahead_dt =", lookahead_dt)
@@ -2215,7 +2215,7 @@ class FinancialsManager:
                 df = self._earnings_dates.copy()
                 f_na = df['Reported EPS'].isna().to_numpy()
                 f_nna = ~f_na
-                f_expired = f_na & (df.index < dt_now) & ((dt_now - df['FetchDate']) > pd.Timedelta('7d')).to_numpy()
+                f_expired = f_na & (df.index < dt_now) & ((dt_now - df['FetchDate']) > pd.Timedelta('7D')).to_numpy()
                 n = df.shape[0]
                 if debug:
                     print("- n =", n)
