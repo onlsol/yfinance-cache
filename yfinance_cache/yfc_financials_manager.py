@@ -469,7 +469,7 @@ class FinancialsManager:
         if df is None:
             do_fetch = True
         elif refresh:
-            dt_now = pd.Timestamp.utcnow().tz_convert(self.tzName)
+            dt_now = pd.Timestamp.now('UTC').tz_convert(self.tzName)
             if df.empty:
                 # Nothing to estimate releases on, so just periodically check
                 try:
@@ -574,7 +574,7 @@ class FinancialsManager:
                 print(msg)
             df_new = getattr(self.dat, name)
             df_new = df_new.astype('float')
-            fetch_dt = pd.Timestamp.utcnow().tz_convert(self.tzName)
+            fetch_dt = pd.Timestamp.now('UTC').tz_convert(self.tzName)
             if md is None:
                 md = {'FetchDates':{}}
             for dt in df_new.columns:
@@ -798,7 +798,7 @@ class FinancialsManager:
 
         max_age = pd.Timedelta(yfcm._option_manager.max_ages.calendar)
         dt_now = pd.Timestamp.now()
-        d_exchange = pd.Timestamp.utcnow().tz_convert(self.tzName).date()
+        d_exchange = pd.Timestamp.now('UTC').tz_convert(self.tzName).date()
         if releases is None:
             if md is None:
                 do_calc = True
@@ -2079,7 +2079,7 @@ class FinancialsManager:
         if debug:
             print(f"get_earnings_dates(start={start}, refresh={refresh})")
 
-        dt_now = pd.Timestamp.utcnow().tz_convert(self.tzName)
+        dt_now = pd.Timestamp.now('UTC').tz_convert(self.tzName)
 
         last_fetch = None
         if self._earnings_dates is None:
@@ -2417,7 +2417,7 @@ class FinancialsManager:
             if debug:
                 print("- Yahoo returned None")
             return None
-        df['FetchDate'] = pd.Timestamp.utcnow().tz_convert(self.tzName)
+        df['FetchDate'] = pd.Timestamp.now('UTC').tz_convert(self.tzName)
 
         if df.shape[0] < limit:
             if debug:
