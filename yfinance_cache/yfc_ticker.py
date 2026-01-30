@@ -109,7 +109,7 @@ class Ticker:
                 raise Exception(f"Need to add mapping of exchange {exchange} to xcal (ticker={self._ticker})")
             else:
                 raise
-        dt_now = pd.Timestamp.utcnow()
+        dt_now = pd.Timestamp.now('UTC')
 
         # Type checks
         if max_age is not None:
@@ -673,7 +673,7 @@ class Ticker:
 
         # Process dates
         exchange, tz, lday = self._getExchangeAndTzAndListingDay()
-        dt_now = pd.Timestamp.utcnow().tz_convert(tz)
+        dt_now = pd.Timestamp.now('UTC').tz_convert(tz)
         if start is not None:
             start_dt, start_d = self._process_user_dt(start)
             start = start_d
@@ -704,7 +704,7 @@ class Ticker:
                 self._shares = self._fetch_shares(start, end)
                 if self._shares is None:
                     self._shares = pd.DataFrame()
-                yfcm.StoreCacheDatum(self._ticker, "shares", self._shares, metadata={'LastFetch':pd.Timestamp.utcnow().tz_convert(tz)})
+                yfcm.StoreCacheDatum(self._ticker, "shares", self._shares, metadata={'LastFetch':pd.Timestamp.now('UTC').tz_convert(tz)})
                 if self._shares.empty:
                     return None
             else:
@@ -728,14 +728,14 @@ class Ticker:
 
         if start < self._shares.index[0].date() and (not yfcm._option_manager.session.offline):
             df_pre = self._fetch_shares(start, self._shares.index[0])
-            yfcm.WriteCacheMetadata(self._ticker, "shares", 'LastFetch', pd.Timestamp.utcnow().tz_convert(tz))
+            yfcm.WriteCacheMetadata(self._ticker, "shares", 'LastFetch', pd.Timestamp.now('UTC').tz_convert(tz))
             if df_pre is not None:
                 self._shares = pd.concat([df_pre, self._shares])
         if (end-td_1d) > self._shares.index[-1].date() and \
             (end - self._shares.index[-1].date()) > max_age \
             and (not yfcm._option_manager.session.offline):
             df_post = self._fetch_shares(self._shares.index[-1] + td_1d, end)
-            yfcm.WriteCacheMetadata(self._ticker, "shares", 'LastFetch', pd.Timestamp.utcnow().tz_convert(tz))
+            yfcm.WriteCacheMetadata(self._ticker, "shares", 'LastFetch', pd.Timestamp.now('UTC').tz_convert(tz))
             if df_post is not None:
                 self._shares = pd.concat([self._shares, df_post])
 
@@ -794,7 +794,7 @@ class Ticker:
             if df.empty:
                 return None
 
-        fetch_dt = pd.Timestamp.utcnow().tz_convert(tz)
+        fetch_dt = pd.Timestamp.now('UTC').tz_convert(tz)
         df = pd.DataFrame(df, columns=['Shares'])
 
         if start_d < df.index[0].date():
