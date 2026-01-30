@@ -508,11 +508,11 @@ class OptionsManager:
             self.options = {}
             # Initialise
             a = self.__getattr__('max_ages')
-            a.calendar = '7d'
-            a.info = '45d'
-            a.options = '1d'
-            a.holdings = '91d'
-            a.analysis = '91d'
+            a.calendar = '7D'
+            a.info = '45D'
+            a.options = '1D'
+            a.holdings = '91D'
+            a.analysis = '91D'
             c = self.__getattr__('calendar')
             c.accept_unexpected_Yahoo_intervals = True
 
