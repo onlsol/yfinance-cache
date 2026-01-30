@@ -238,7 +238,7 @@ def GetCalendarViaCache(exchange, start, end=None):
             start = date(pre_range[0], 1, 1)
             end = date(pre_range[1], 12, 31)
             if exchange == 'CCC':
-                opens = pd.date_range(start=start, end=end, freq='1d').tz_localize(ZoneInfo(GetExchangeTzName(exchange)))
+                opens = pd.date_range(start=start, end=end, freq='1D').tz_localize(ZoneInfo(GetExchangeTzName(exchange)))
                 ends = opens + pd.Timedelta('1D')
                 pre_cal = Simple247xcal(opens, ends)
             else:
@@ -252,7 +252,7 @@ def GetCalendarViaCache(exchange, start, end=None):
             start = date(post_range[0], 1, 1)
             end = date(post_range[1], 12, 31)
             if exchange == 'CCC':
-                opens = pd.date_range(start=start, end=end, freq='1d').tz_localize(ZoneInfo(GetExchangeTzName(exchange)))
+                opens = pd.date_range(start=start, end=end, freq='1D').tz_localize(ZoneInfo(GetExchangeTzName(exchange)))
                 ends = opens + pd.Timedelta('1D')
                 post_cal = Simple247xcal(opens, ends)
             else:
